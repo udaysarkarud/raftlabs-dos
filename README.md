@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# App that helps you find the degree of separation between any two people.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
