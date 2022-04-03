@@ -39,7 +39,7 @@ const AddRelationType = (props) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-group mb-3">
                         <input {...register("relation")} type="text" className="form-control" placeholder="Type Name" />
-                        <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Add Relation</button>
+                        <button className="btn btn-primary" type="submit" id="button-addon2">Add Relation</button>
                     </div>
                 </form>
             </div>

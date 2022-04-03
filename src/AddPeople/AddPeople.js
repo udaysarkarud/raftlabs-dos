@@ -43,7 +43,7 @@ const AddPeople = (props) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-group mb-3">
                         <input {...register("name")} type="text" className="form-control" placeholder="Type Name" />
-                        <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Add People</button>
+                        <button className="btn btn-primary" type="submit" id="button-addon2">Add People</button>
                     </div>
                 </form>
             </div>

@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 
 const DosCal = () => {
-    const [dos,setDos]=useState([])
+    const [dos, setDos] = useState([])
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
         const getData = JSON.parse(window.localStorage.getItem('relationData')) || [];
         if (getData.length < 0) {
             console.log('nothing to search')
         } else {
+            // reference : https://stackoverflow.com/questions/69969821/list-all-link-of-friends-between-two-given-friends
+
             // preprocess a JSON list of connections to an adjacency list Graph
             function connectionsListToGraph(connections) {
                 const Graph = {}
@@ -43,19 +45,23 @@ const DosCal = () => {
                 findConnectionsDFS(source, target);
                 return connectionPaths;
             }
-            setDos(getConnections(data.person1, data.person2, getData))
+            // set getConnection data to setDos
+            setDos(getConnections(data.person1, data.person2, getData));
         }
 
     };
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="row">
+            <form onSubmit={handleSubmit(onSubmit)} className="row div-gap">
+                <div className='text-center m-3'>
+                    <h5>Check degree of separation</h5>
+                </div>
                 <div className="col-xl-6 col-12">
                     <div className='text-center'>
-                        <h5>Person Name - 2</h5>
+                        <h5>Person Name - 1</h5>
 
                         <div className="input-group mb-3">
-                            <input {...register("person1")} type="text" className="form-control" placeholder="Person-1" required/>
+                            <input {...register("person1")} type="text" className="form-control" placeholder="Person-1" required />
 
                         </div>
                     </div>
@@ -66,18 +72,18 @@ const DosCal = () => {
                         <h5>Person Name - 2</h5>
 
                         <div className="input-group mb-3">
-                            <input {...register("person2")} type="text" className="form-control" placeholder="Person-2" required/>
+                            <input {...register("person2")} type="text" className="form-control" placeholder="Person-2" required />
 
                         </div>
 
                     </div>
                 </div>
-                <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Check degree of separation</button>
+                <button className="btn btn-outline-primary" type="submit" id="button-addon2">Check Now</button>
             </form>
             <ol className='fs-5 m-3'>
-            {
-                dos.map((item,index)=><li key={index}>{item.join(" > ")}</li>)
-            }
+                {
+                    dos.map((item, index) => <li key={index}>{item.join(" > ")}</li>)
+                }
             </ol>
         </>
     );

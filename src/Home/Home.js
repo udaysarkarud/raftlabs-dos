@@ -9,19 +9,14 @@ const Home = () => {
     const [loadData, setLoadData] = useState(false);
     const [loadType, setLoadType] = useState('both')
     const [peoples, setPeoples] = useState([]);
-    const [peoples2, setPeoples2] = useState([]);
     const [relationType, setRelationType] = useState([]);
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+
     const handelReload = (type) => {
         setLoadType(type)
         !loadData ? setLoadData(true) : setLoadData(false)
     }
 
-    /*     const handelSelectPeople2 = (e) => {
-            setPeoples2(peoples.filter(item => item !== e.target.value));
-            setFriends([{ name: e.target.value }])
-        } */
-    const fndsList = []
     const onSubmit = data => {
         if (data.name === data.friendName) {
             // Notification if both names are same
@@ -73,22 +68,26 @@ const Home = () => {
 
     return (
         <div>
-            <div className="App main">
+            <div className="App main">               
                 <div className='border bg-white w-50 p-3 border-1 rounded mx-auto my-5'>
-                    <div className="row">
+                    <div className="row div-gap">
+                        {/* Add New Peope Component */}
                         <AddPeople handelReload={handelReload} />
+                        {/* Add New Relation Status Component */}
                         <AddRelationType handelReload={handelReload} />
-                        <hr />
                     </div>
+                    <hr />
 
 
-
-
+                    {/* Add new Pair  Start*/}
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="row">
+                        <div className="row div-gap">
+                            <div className='text-center m-3'>
+                                <h5>Select People and Make Friends</h5>
+                            </div>
                             <div className="col-xl-4 col-4">
                                 Select People
-                                <select /* onChange={handelSelectPeople2} */ {...register("name")} className="form-select" required>
+                                <select {...register("name")} className="form-select" required>
                                     {
                                         peoples.length > 0 && peoples.map((person, index) => <option key={index}>{person}</option>)
                                     }
@@ -117,13 +116,15 @@ const Home = () => {
                                 </select>
                             </div>
 
-
-                            <button className="btn btn-outline-secondary mt-3" type="submit" id="button-addon2">Add Now</button>
+                            <button className="btn btn-outline-primary mt-3" type="submit" id="button-addon2">Make Friends</button>
 
 
                         </div>
                     </form>
+                    {/* Add new Pair  End*/}
                     <hr />
+
+                    {/* degree of separation calculation*/}
                     <DosCal />
                 </div>
             </div>
