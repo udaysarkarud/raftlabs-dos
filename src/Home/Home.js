@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import AddPeople from '../AddPeople/AddPeople';
 import AddRelationType from '../AddRelationType/AddRelationType';
 import DosCal from '../DosCal/DosCal';
+import Swal from 'sweetalert2'
 
 const Home = () => {
     const [loadData, setLoadData] = useState(false);
@@ -10,7 +11,6 @@ const Home = () => {
     const [peoples, setPeoples] = useState([]);
     const [peoples2, setPeoples2] = useState([]);
     const [relationType, setRelationType] = useState([]);
-    const [relationShipData, setRelationShipData] = useState([])
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const handelReload = (type) => {
         setLoadType(type)
@@ -24,28 +24,34 @@ const Home = () => {
     const fndsList = []
     const onSubmit = data => {
         if (data.name === data.friendName) {
-            console.log('Please Select Diffrents Name')
+            // Notification if both names are same
+            Swal.fire({
+                icon: 'error',
+                title: 'Select Different Names',
+            });
         } else {
-            const checkData = JSON.parse(window.localStorage.getItem('relationData')) || [].findIndex(item => item.name === data.name)
-
+            //Get Data from localStorage : if there is no data then default data'll be empty array  
             const getData = JSON.parse(window.localStorage.getItem('relationData')) || [];
             const findIndex = getData.findIndex(item => item.name === data.name);
 
             if (findIndex < 0) {
+                //push new data if getdata is empty array  
                 const fndsData = { name: data.name, friends: [data.friendName] }
-                const oldData = JSON.parse(window.localStorage.getItem('relationData')) || [];
-                oldData.push(fndsData);
-                window.localStorage.setItem('relationData', JSON.stringify(oldData));
+                getData.push(fndsData);
 
             } else {
-                const oldData = JSON.parse(window.localStorage.getItem('relationData'));
-                const personOldData = oldData[findIndex]
+                //push new data if getdata have already data
+                const personOldData = getData[findIndex]
                 personOldData.friends.push(data.friendName)
-                oldData[findIndex] = personOldData
-                console.log(oldData[findIndex])
-                window.localStorage.setItem('relationData', JSON.stringify(oldData));
-
+                getData[findIndex] = personOldData
             }
+            //update localStorage and Notification
+            window.localStorage.setItem('relationData', JSON.stringify(getData));
+
+            Swal.fire({
+                icon: 'success',
+                title: 'New Relationship Added',
+            });
 
         }
     };
